@@ -25,18 +25,18 @@ class UserDao {
     }
   }
 
-  async checkDuplicateEmail(email) {
+  async checkDuplicate(column, value) {
     try {
       const [user] = await AppDataSource.query(
         `
         SELECT * FROM users
-        WHERE email = ?
+        WHERE ${column} = ?
         `,
-        [email]
+        [value]
       );
 
       if (user) {
-        throwError(400, 'DUPLICATE_EMAIL');
+        throwError(400, `DUPLICATE_${value.toUpperCase()}`);
       }
     } catch (err) {
       throwError(500, 'SERVER_ERROR');

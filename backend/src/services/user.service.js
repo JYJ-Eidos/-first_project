@@ -6,14 +6,21 @@ class UserService {
     this.userDao = userDao;
   }
 
-  async checkDuplicateEmail() {
-    this.validateEmail(email);
-    await this.userDao.checkDuplicateEmail(email);
+  async checkDuplicateEmail(column, value) {
+    this.validateEmail(value);
+    await this.checkDuplicate(column, value);
+  }
+
+  async checkDuplicate(column, value) {
+    await this.userDao.checkDuplicate(column, value);
   }
 
   async createUser(userData) {
     const { email, password, nickname, phone_number, profile_image } = userData;
+    await this.checkDuplicateEmail('email', email);
     this.validatePassword(password);
+    await this.checkDuplicate('nickname', nickname);
+    await this.checkDuplicate('phone_number', phone_number);
     await this.userDao.createUser(userData);
   }
 
