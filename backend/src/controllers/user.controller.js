@@ -8,7 +8,29 @@ class UserController {
     const { email } = req.body;
     try {
       await this.userService.checkDuplicateEmail('email', email);
-      res.status(200).json({ success: true, message: 'Email is available' });
+      res.status(200).json({ success: true, message: 'EMAIL_IS_AVAILABLE' });
+    } catch (err) {
+      res.status(err.status).json({ success: false, message: err.message });
+    }
+  }
+
+  async checkDuplicateNickname(req, res) {
+    const { nickname } = req.body;
+    try {
+      await this.userService.checkDuplicate('nickname', nickname);
+      res.status(200).json({ success: true, message: 'NICKNAME_IS_AVAILABLE' });
+    } catch (err) {
+      res.status(err.status).json({ success: false, message: err.message });
+    }
+  }
+
+  async checkDuplicatePhoneNumber(req, res) {
+    const { phone_number } = req.body;
+    try {
+      await this.userService.checkDuplicate('phone_number', phone_number);
+      res
+        .status(200)
+        .json({ success: true, message: 'PHONE_NUMBER_IS_AVAILABLE' });
     } catch (err) {
       res.status(err.status).json({ success: false, message: err.message });
     }
