@@ -26,20 +26,21 @@ class UserDao {
   }
 
   async checkDuplicate(column, value) {
-    try {
-      const [user] = await AppDataSource.query(
-        `
-        SELECT * FROM users
-        WHERE ${column} = ?
-        `,
-        [value]
-      );
+    const validColumns = ['email', 'nickname', 'phone_number'];
+    if (!validColumns.includes(column)) {
+      throwError(400, 'INVALID_COLUMN');
+    }
 
-      if (user) {
-        throwError(400, `DUPLICATE_${value.toUpperCase()}`);
-      }
-    } catch (err) {
-      throwError(500, 'SERVER_ERROR');
+    const [result] = await AppDataSource.query(
+      `
+        SELECT 1 FROM users
+        WHERE ?? = ? LIMIT 1
+        `,
+      [column, value]
+    );
+
+    if (result) {
+      throwError(400, `DUPLICATE_${column.toUpperCase()}`);
     }
   }
 }
