@@ -58,6 +58,18 @@ class UserController {
       res.status(err.status).json({ success: false, message: err.message });
     }
   }
+
+  async login(req, res) {
+    const { email, password } = req.body;
+
+    try {
+      const token = await this.userService.loginUser({ email, password });
+      res.setHeader('Authorization', `Bearer ${token}`);
+      res.status(200).json({ success: true, message: 'SUCCESS_LOGIN' });
+    } catch (err) {
+      res.status(400).json({ success: false, message: err.message });
+    }
+  }
 }
 
 module.exports = { UserController };

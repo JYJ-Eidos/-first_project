@@ -5,13 +5,16 @@ const { Validate } = require('../utils/validate');
 const { Bcrypt } = require('../utils/bcrypt');
 const { UserService } = require('../services/user.service');
 const { UserController } = require('../controllers/user.controller');
+const { JWT } = require('../utils/jwt');
 const userDao = new UserDao();
 const validate = new Validate();
 const bcrypt = new Bcrypt();
-const userService = new UserService(userDao, validate, bcrypt);
+const jwt = new JWT();
+const userService = new UserService(userDao, validate, bcrypt, jwt);
 const userController = new UserController(userService);
 
 userRouter.post('/signup', (req, res) => userController.signup(req, res));
+userRouter.post('/login', (req, res) => userController.login(req, res));
 userRouter.post('/email-check', (req, res) =>
   userController.checkDuplicateEmail(req, res)
 );

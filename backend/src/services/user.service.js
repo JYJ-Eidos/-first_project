@@ -1,10 +1,11 @@
 const { throwError } = require('../utils/throwError');
 
 class UserService {
-  constructor(userDao, validate, bcrypt) {
+  constructor(userDao, validate, bcrypt, jwt) {
     this.userDao = userDao;
     this.validate = validate;
     this.bcrypt = bcrypt;
+    this.jwt = jwt;
   }
 
   async checkDuplicate(column, value) {
@@ -39,16 +40,23 @@ class UserService {
 
   async loginUser(userLoginData) {
     const { email, password } = userLoginData;
+
     this.validate.checkEmail(email);
     const userData = await this.userDao.getUserByEmail(email);
-    const { password: hashedPassword } = userData;
+    const { id, password: hashedPassword } = userData;
     const isPasswordValid = await this.bcrypt.verifyPassword(
       password,
       hashedPassword
     );
+
     if (!isPasswordValid) {
       throwError(400, 'INVALID_PASSWORD');
     }
+
+    const iss = process.env.ISSUER;
+    const token = this.jwt.issuedToken({ id, email, iss });
+
+    return token;
   }
 }
 
