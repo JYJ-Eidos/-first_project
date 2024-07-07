@@ -2,11 +2,13 @@ const express = require('express');
 const userRouter = express.Router();
 const { UserDao } = require('../models/user.dao');
 const { Validate } = require('../utils/validate');
+const { Bcrypt } = require('../utils/bcrypt');
 const { UserService } = require('../services/user.service');
 const { UserController } = require('../controllers/user.controller');
 const userDao = new UserDao();
 const validate = new Validate();
-const userService = new UserService(userDao, validate);
+const bcrypt = new Bcrypt();
+const userService = new UserService(userDao, validate, bcrypt);
 const userController = new UserController(userService);
 
 userRouter.post('/signup', (req, res) => userController.signup(req, res));

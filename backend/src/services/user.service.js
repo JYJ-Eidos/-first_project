@@ -1,10 +1,8 @@
-const bcrypt = require('bcrypt');
-const { throwError } = require('../utils/throwError');
-
 class UserService {
-  constructor(userDao, validate) {
+  constructor(userDao, validate, bcrypt) {
     this.userDao = userDao;
     this.validate = validate;
+    this.bcrypt = bcrypt;
   }
 
   async checkDuplicate(column, value) {
@@ -23,7 +21,7 @@ class UserService {
     await this.checkDuplicate('nickname', nickname);
     await this.checkDuplicate('phone_number', phone_number);
 
-    const hashedPassword = await this.bcryptHashPassword(password);
+    const hashedPassword = await this.bcrypt.hashPassword(password);
 
     const newUserData = {
       email,
@@ -34,15 +32,6 @@ class UserService {
     };
 
     await this.userDao.createUser(newUserData);
-  }
-
-  async bcryptHashPassword(password) {
-    const SALT_ROUNDS = Number(process.env.BCRYPT_SALT_ROUNDS);
-    try {
-      return await bcrypt.hash(password, SALT_ROUNDS || 10);
-    } catch (err) {
-      throwError(400, 'PASSWORD_HASHING_FAILED');
-    }
   }
 }
 
