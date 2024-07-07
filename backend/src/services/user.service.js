@@ -5,6 +5,10 @@ class UserService {
     this.bcrypt = bcrypt;
   }
 
+  async checkDuplicate(column, value) {
+    await this.userDao.checkDuplicate(column, value);
+  }
+
   async createUser(userData) {
     const { email, password, nickname, phone_number, profile_image } = userData;
 
