@@ -43,6 +43,22 @@ class UserDao {
       throwError(400, `DUPLICATE_${column.toUpperCase()}`);
     }
   }
+
+  async getUserByEmail(email) {
+    const [user] = await AppDataSource.query(
+      `
+      SELECT password FROM users
+      WHERE email = ?
+      `,
+      [email]
+    );
+
+    if (!user) {
+      throwError(404, 'USER_NOT_FOUND');
+    }
+
+    return user;
+  }
 }
 
 module.exports = { UserDao };

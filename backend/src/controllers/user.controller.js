@@ -7,7 +7,7 @@ class UserController {
   async checkDuplicateEmail(req, res) {
     const { email } = req.body;
     try {
-      await this.userService.checkDuplicateEmail('email', email);
+      await this.userService.checkDuplicate('email', email);
       res.status(200).json({ success: true, message: 'EMAIL_IS_AVAILABLE' });
     } catch (err) {
       res.status(err.status).json({ success: false, message: err.message });

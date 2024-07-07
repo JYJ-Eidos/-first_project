@@ -1,15 +1,11 @@
 const bcrypt = require('bcrypt');
 const { throwError } = require('../utils/throwError');
+const { Validate } = require('../utils/validate');
 
 class UserService {
-  userDao;
   constructor(userDao) {
     this.userDao = userDao;
-  }
-
-  async checkDuplicateEmail(column, value) {
-    this.validateEmail(value);
-    await this.checkDuplicate(column, value);
+    this.validate = new Validate();
   }
 
   async checkDuplicate(column, value) {
@@ -18,10 +14,18 @@ class UserService {
 
   async createUser(userData) {
     const { email, password, nickname, phone_number, profile_image } = userData;
-    await this.checkDuplicateEmail('email', email);
-    const hashedPassword = await this.bcryptHashPassword(password);
+
+    this.validate.checkEmail(email);
+    this.validate.checkPassword(password);
+    this.validate.checkNickname(nickname);
+    this.validate.checkPhoneNumber(phone_number);
+
+    await this.checkDuplicate('email', email);
     await this.checkDuplicate('nickname', nickname);
     await this.checkDuplicate('phone_number', phone_number);
+
+    const hashedPassword = await this.bcryptHashPassword(password);
+
     const newUserData = {
       email,
       password: hashedPassword,
@@ -29,22 +33,11 @@ class UserService {
       phone_number,
       profile_image,
     };
+
     await this.userDao.createUser(newUserData);
   }
 
-  validateEmail(email) {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!emailRegex.test(email)) {
-      throwError(400, 'INVALID_EMAIL_FORMAT');
-    }
-  }
-
   async bcryptHashPassword(password) {
-    const passwordRegex =
-      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    if (!passwordRegex.test(password)) {
-      throwError(400, 'INVALID_PASSWORD_FORMAT');
-    }
     const SALT_ROUNDS = Number(process.env.BCRYPT_SALT_ROUNDS);
     try {
       return await bcrypt.hash(password, SALT_ROUNDS || 10);
