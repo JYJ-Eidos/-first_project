@@ -5,10 +5,6 @@ class UserService {
     this.bcrypt = bcrypt;
   }
 
-  async checkDuplicate(column, value) {
-    await this.userDao.checkDuplicate(column, value);
-  }
-
   async createUser(userData) {
     const { email, password, nickname, phone_number, profile_image } = userData;
 
@@ -17,9 +13,9 @@ class UserService {
     this.validate.checkNickname(nickname);
     this.validate.checkPhoneNumber(phone_number);
 
-    await this.checkDuplicate('email', email);
-    await this.checkDuplicate('nickname', nickname);
-    await this.checkDuplicate('phone_number', phone_number);
+    await this.userDao.checkDuplicate('email', email);
+    await this.userDao.checkDuplicate('nickname', nickname);
+    await this.userDao.checkDuplicate('phone_number', phone_number);
 
     const hashedPassword = await this.bcrypt.hashPassword(password);
 

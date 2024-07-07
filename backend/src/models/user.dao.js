@@ -40,24 +40,30 @@ class UserDao {
     );
 
     if (result) {
+      console.error(err);
       throwError(400, `DUPLICATE_${column.toUpperCase()}`);
     }
   }
 
   async getUserByEmail(email) {
-    const [user] = await AppDataSource.query(
-      `
-      SELECT password FROM users
-      WHERE email = ?
-      `,
-      [email]
-    );
+    try {
+      const [user] = await AppDataSource.query(
+        `
+        SELECT * FROM users
+        WHERE email = ?
+        `,
+        [email]
+      );
 
-    if (!user) {
-      throwError(404, 'USER_NOT_FOUND');
+      if (!user) {
+        throwError(404, 'USER_NOT_FOUND');
+      }
+
+      return user;
+    } catch (err) {
+      console.error(err);
+      throwError(500, 'DATABASE_ERROR');
     }
-
-    return user;
   }
 }
 
