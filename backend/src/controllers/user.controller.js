@@ -46,7 +46,7 @@ class UserController {
     }
 
     try {
-      await this.userService.createUser({
+      await this.userService.registerUser({
         email,
         password,
         nickname,

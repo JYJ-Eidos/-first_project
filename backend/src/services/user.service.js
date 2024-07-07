@@ -1,3 +1,5 @@
+const { throwError } = require('../utils/throwError');
+
 class UserService {
   constructor(userDao, validate, bcrypt) {
     this.userDao = userDao;
@@ -9,8 +11,9 @@ class UserService {
     await this.userDao.checkDuplicate(column, value);
   }
 
-  async createUser(userData) {
-    const { email, password, nickname, phone_number, profile_image } = userData;
+  async registerUser(userSignUpData) {
+    const { email, password, nickname, phone_number, profile_image } =
+      userSignUpData;
 
     this.validate.checkEmail(email);
     this.validate.checkPassword(password);
@@ -23,7 +26,7 @@ class UserService {
 
     const hashedPassword = await this.bcrypt.hashPassword(password);
 
-    const newUserData = {
+    const newUserSignUpData = {
       email,
       password: hashedPassword,
       nickname,
@@ -31,7 +34,21 @@ class UserService {
       profile_image,
     };
 
-    await this.userDao.createUser(newUserData);
+    await this.userDao.createUser(newUserSignUpData);
+  }
+
+  async loginUser(userLoginData) {
+    const { email, password } = userLoginData;
+    this.validate.checkEmail(email);
+    const userData = await this.userDao.getUserByEmail(email);
+    const { password: hashedPassword } = userData;
+    const isPasswordValid = await this.bcrypt.verifyPassword(
+      password,
+      hashedPassword
+    );
+    if (!isPasswordValid) {
+      throwError(400, 'INVALID_PASSWORD');
+    }
   }
 }
 

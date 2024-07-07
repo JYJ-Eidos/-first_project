@@ -47,7 +47,7 @@ class UserDao {
 
   async getUserByEmail(email) {
     try {
-      const [user] = await AppDataSource.query(
+      const [userData] = await AppDataSource.query(
         `
         SELECT * FROM users
         WHERE email = ?
@@ -55,11 +55,11 @@ class UserDao {
         [email]
       );
 
-      if (!user) {
+      if (!userData) {
         throwError(404, 'USER_NOT_FOUND');
       }
 
-      return user;
+      return userData;
     } catch (err) {
       console.error(err);
       throwError(500, 'DATABASE_ERROR');
