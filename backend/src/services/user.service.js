@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const { throwError } = require('../utils/throwError');
 
 class UserService {
@@ -18,10 +19,17 @@ class UserService {
   async createUser(userData) {
     const { email, password, nickname, phone_number, profile_image } = userData;
     await this.checkDuplicateEmail('email', email);
-    this.validatePassword(password);
+    const hashedPassword = await this.bcryptHashPassword(password);
     await this.checkDuplicate('nickname', nickname);
     await this.checkDuplicate('phone_number', phone_number);
-    await this.userDao.createUser(userData);
+    const newUserData = {
+      email,
+      password: hashedPassword,
+      nickname,
+      phone_number,
+      profile_image,
+    };
+    await this.userDao.createUser(newUserData);
   }
 
   validateEmail(email) {
@@ -31,11 +39,17 @@ class UserService {
     }
   }
 
-  validatePassword(password) {
+  async bcryptHashPassword(password) {
     const passwordRegex =
       /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     if (!passwordRegex.test(password)) {
       throwError(400, 'INVALID_PASSWORD_FORMAT');
+    }
+    const SALT_ROUNDS = Number(process.env.BCRYPT_SALT_ROUNDS);
+    try {
+      return await bcrypt.hash(password, SALT_ROUNDS || 10);
+    } catch (err) {
+      throwError(400, 'PASSWORD_HASHING_FAILED');
     }
   }
 }

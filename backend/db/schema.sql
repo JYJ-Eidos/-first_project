@@ -30,7 +30,7 @@ CREATE TABLE `schema_migrations` (
 CREATE TABLE `users` (
   `id` int NOT NULL AUTO_INCREMENT,
   `email` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL,
+  `password` varchar(200) NOT NULL,
   `nickname` varchar(20) NOT NULL,
   `phone_number` varchar(11) NOT NULL,
   `profile_image` varchar(1000) DEFAULT NULL,
