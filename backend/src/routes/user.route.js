@@ -1,10 +1,12 @@
 const express = require('express');
 const userRouter = express.Router();
-const { UserController } = require('../controllers/user.controller');
 const { UserDao } = require('../models/user.dao');
+const { Validate } = require('../utils/validate');
 const { UserService } = require('../services/user.service');
+const { UserController } = require('../controllers/user.controller');
 const userDao = new UserDao();
-const userService = new UserService(userDao);
+const validate = new Validate();
+const userService = new UserService(userDao, validate);
 const userController = new UserController(userService);
 
 userRouter.post('/signup', (req, res) => userController.signup(req, res));

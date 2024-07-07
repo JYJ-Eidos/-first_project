@@ -1,11 +1,10 @@
 const bcrypt = require('bcrypt');
 const { throwError } = require('../utils/throwError');
-const { Validate } = require('../utils/validate');
 
 class UserService {
-  constructor(userDao) {
+  constructor(userDao, validate) {
     this.userDao = userDao;
-    this.validate = new Validate();
+    this.validate = validate;
   }
 
   async checkDuplicate(column, value) {
