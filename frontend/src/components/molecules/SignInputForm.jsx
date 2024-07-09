@@ -1,14 +1,21 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import SignInput from '../atoms/SignInput';
+import SignInput from '../atoms/SignUp/SignInput';
 import InputFormTitle from '../atoms/InputFormTitle';
-import SignResultMsg from '../atoms/SignResultMsg';
+import SignResultMsg from '../atoms/SignUp/SignResultMsg';
 
-const SignInputForm = ({ type, title, placeholder, successMsg, failMsg }) => {
+const SignInputForm = ({
+  type,
+  name,
+  title,
+  placeholder,
+  successMsg,
+  failMsg,
+}) => {
   return (
     <Div>
       <InputFormTitle title={title} />
-      <SignInput placeholder={placeholder} type={type} />
+      <SignInput type={type} name={name} placeholder={placeholder} />
       <SignResultMsg successMsg={successMsg} failMsg={failMsg} />
     </Div>
   );
@@ -16,6 +23,7 @@ const SignInputForm = ({ type, title, placeholder, successMsg, failMsg }) => {
 
 SignInputForm.propTypes = {
   type: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
   successMsg: PropTypes.string.isRequired,

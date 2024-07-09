@@ -1,11 +1,13 @@
 import styled from 'styled-components';
 import SignInputForm from '../molecules/SignInputForm';
+import SignSubmit from '../atoms/SignUp/SignSubmit';
 
 const SignUpForm = () => {
   return (
     <Form>
       <SignInputForm
         type='text'
+        name='email'
         title='이메일'
         placeholder='example@example.com'
         successMsg='사용 가능한 이메일입니다.'
@@ -13,6 +15,7 @@ const SignUpForm = () => {
       />
       <SignInputForm
         type='password'
+        name='password'
         title='비밀번호'
         placeholder='8~16자리 영문 대소문자, 숫자, 특수문자 조합'
         successMsg='사용 가능한 비밀번호입니다.'
@@ -20,6 +23,7 @@ const SignUpForm = () => {
       />
       <SignInputForm
         type='password'
+        name='phoneNumber'
         title='비밀번호 확인'
         placeholder='8~16자리 영문 대소문자, 숫자, 특수문자 조합'
         successMsg='비밀번호가 일치합니다.'
@@ -27,6 +31,7 @@ const SignUpForm = () => {
       />
       <SignInputForm
         type='text'
+        name='checkPassword'
         title='닉네임'
         placeholder='2~30자리 영문, 한글, 숫자 조합'
         successMsg='사용 가능한 닉네임입니다.'
@@ -34,6 +39,7 @@ const SignUpForm = () => {
       />
       <SignInputForm
         type='number'
+        name='birthday'
         title='생년월일'
         placeholder='YYYYMMDD'
         successMsg='만 19세 이상입니다.'
@@ -41,11 +47,13 @@ const SignUpForm = () => {
       />
       <SignInputForm
         type='text'
+        name='phoneNumber'
         title='휴대폰 번호'
         placeholder="'-'빼고 숫자만 입력"
         successMsg='사용 가능한 번호입니다.'
         failMsg='이미 사용중인 번호입니다.'
       />
+      <SignSubmit />
     </Form>
   );
 };
