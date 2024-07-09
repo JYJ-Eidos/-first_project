@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 import NavList from '../molecules/NavList';
-import AuthList from '../molecules/AuthList';
+import SignList from '../molecules/SignList';
 
 const Header = () => {
   return (
     <PageHeader>
       <NavList />
-      <AuthList />
+      <SignList />
     </PageHeader>
   );
 };

@@ -1,6 +1,6 @@
 import MenuButton from '../atoms/MenuButton';
 
-const AuthList = () => {
+const SignList = () => {
   return (
     <div>
       <MenuButton href='/users/login'>로그인</MenuButton>
@@ -9,4 +9,4 @@ const AuthList = () => {
   );
 };
 
-export default AuthList;
+export default SignList;
