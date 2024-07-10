@@ -5,11 +5,10 @@ import { useNavigate } from 'react-router-dom';
 const SignSubmit = () => {
   const navigate = useNavigate();
   const HOST = import.meta.env.VITE_API_HOST;
-  const { email, password, nickname, birthday, phoneNumber } = useSelector(
-    (state) => state.signUpReducer
-  );
+  const { email, password, nickname, birthday, phoneNumber, profileImage } =
+    useSelector((state) => state.signUpReducer);
 
-  const onSubmitHandler = (e) => {
+  const onClickHandler = (e) => {
     e.preventDefault();
     const url = `${HOST}/users/signup`;
     const data = {
@@ -17,8 +16,10 @@ const SignSubmit = () => {
       password,
       nickname,
       birthday,
-      phoneNumber,
+      phone_number: phoneNumber,
+      profile_image: profileImage,
     };
+    console.log(data);
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -39,7 +40,7 @@ const SignSubmit = () => {
       });
   };
 
-  return <button onSubmit={onSubmitHandler}>SignSubmit</button>;
+  return <button onClick={onClickHandler}>SignSubmit</button>;
 };
 
 export default SignSubmit;

@@ -7,8 +7,8 @@ const signUpSlice = createSlice({
     password: '',
     checkPassword: '',
     nickname: '',
-    birthday: '',
     phoneNumber: '',
+    profileImage: '',
   },
   reducers: {
     setUser: (state, action) => {

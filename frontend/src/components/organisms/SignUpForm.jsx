@@ -31,19 +31,11 @@ const SignUpForm = () => {
       />
       <SignInputForm
         type='text'
-        name='checkPassword'
+        name='nickname'
         title='닉네임'
         placeholder='2~30자리 영문, 한글, 숫자 조합'
         successMsg='사용 가능한 닉네임입니다.'
         failMsg='이미 사용중인 닉네임입니다.'
-      />
-      <SignInputForm
-        type='number'
-        name='birthday'
-        title='생년월일'
-        placeholder='YYYYMMDD'
-        successMsg='만 19세 이상입니다.'
-        failMsg='만 19세 이하입니다.'
       />
       <SignInputForm
         type='text'
