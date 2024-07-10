@@ -15,13 +15,13 @@ const userController = new UserController(userService);
 
 userRouter.post('/signup', (req, res) => userController.signup(req, res));
 userRouter.post('/login', (req, res) => userController.login(req, res));
-userRouter.post('/email-check', (req, res) =>
+userRouter.post('/check-email', (req, res) =>
   userController.checkDuplicateEmail(req, res)
 );
-userRouter.post('/nickname-check', (req, res) =>
+userRouter.post('/check-nickname', (req, res) =>
   userController.checkDuplicateNickname(req, res)
 );
-userRouter.post('/phone-number-check', (req, res) =>
+userRouter.post('/check-phone-number', (req, res) =>
   userController.checkDuplicatePhoneNumber(req, res)
 );
 
