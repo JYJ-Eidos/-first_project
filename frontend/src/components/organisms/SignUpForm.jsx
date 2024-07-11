@@ -3,8 +3,14 @@ import SignInputForm from '../molecules/SignInputForm';
 import SignSubmit from '../atoms/SignUp/SignSubmit';
 
 const SignUpForm = () => {
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+    }
+  };
+
   return (
-    <Form>
+    <Form onKeyDown={handleKeyDown}>
       <SignInputForm
         type='text'
         name='email'
@@ -23,7 +29,7 @@ const SignUpForm = () => {
       />
       <SignInputForm
         type='password'
-        name='phoneNumber'
+        name='checkPassword'
         title='비밀번호 확인'
         placeholder='8~16자리 영문 대소문자, 숫자, 특수문자 조합'
         successMsg='비밀번호가 일치합니다.'
@@ -33,12 +39,12 @@ const SignUpForm = () => {
         type='text'
         name='nickname'
         title='닉네임'
-        placeholder='2~30자리 영문, 한글, 숫자 조합'
+        placeholder='2~20자리 영문, 한글, 숫자 조합'
         successMsg='사용 가능한 닉네임입니다.'
         failMsg='이미 사용중인 닉네임입니다.'
       />
       <SignInputForm
-        type='text'
+        type='number'
         name='phoneNumber'
         title='휴대폰 번호'
         placeholder="'-'빼고 숫자만 입력"

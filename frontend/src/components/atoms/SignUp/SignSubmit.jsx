@@ -1,12 +1,12 @@
 import { useSelector } from 'react-redux';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const SignSubmit = () => {
   const navigate = useNavigate();
   const HOST = import.meta.env.VITE_API_HOST;
   const { email, password, nickname, birthday, phoneNumber, profileImage } =
-    useSelector((state) => state.signUpReducer);
+    useSelector((state) => state.signUpReducer.userData);
 
   const onClickHandler = (e) => {
     e.preventDefault();
@@ -19,7 +19,7 @@ const SignSubmit = () => {
       phone_number: phoneNumber,
       profile_image: profileImage,
     };
-    console.log(data);
+
     const config = {
       headers: {
         'Content-Type': 'application/json',

@@ -12,5 +12,6 @@ InputFormTitle.propTypes = {
 export default InputFormTitle;
 
 const Strong = styled.strong`
+  margin: 5px;
   font-size: 16px;
 `;
