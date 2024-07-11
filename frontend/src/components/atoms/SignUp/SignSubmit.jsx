@@ -1,14 +1,16 @@
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import styled from 'styled-components';
 
 const SignSubmit = () => {
   const navigate = useNavigate();
   const HOST = import.meta.env.VITE_API_HOST;
-  const { email, password, nickname, birthday, phoneNumber, profileImage } =
-    useSelector((state) => state.signUpReducer.userData);
+  const { userData } = useSelector((state) => state.signUpReducer);
 
   const onClickHandler = (e) => {
+    const { email, password, nickname, birthday, phoneNumber, profileImage } =
+      userData;
     e.preventDefault();
     const url = `${HOST}/users/signup`;
     const data = {
@@ -40,7 +42,13 @@ const SignSubmit = () => {
       });
   };
 
-  return <button onClick={onClickHandler}>SignSubmit</button>;
+  return <Button onClick={onClickHandler}>SignSubmit</Button>;
 };
 
 export default SignSubmit;
+
+const Button = styled.button`
+  width: 90%;
+  height: 40px;
+  margin-top: 20px;
+`;

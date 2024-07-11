@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import {
   setUser,
+  hasFocus,
   turnOnState,
   turnOffState,
   resetState,
@@ -30,9 +31,10 @@ const SignInput = ({ type, name, placeholder }) => {
 
   const onBlurInput = (e) => {
     const { name, value } = e.currentTarget;
+    dispatch(hasFocus({ name }));
 
     if (name === 'checkPassword') {
-      if (password !== checkPassword) {
+      if (password !== checkPassword || !validateData['password'](value)) {
         dispatch(turnOnState({ name }));
       } else {
         dispatch(turnOffState({ name }));

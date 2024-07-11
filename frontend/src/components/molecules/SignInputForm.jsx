@@ -16,7 +16,7 @@ const SignInputForm = ({
     <Div>
       <InputFormTitle title={title} />
       <SignInput type={type} name={name} placeholder={placeholder} />
-      <SignResultMsg successMsg={successMsg} failMsg={failMsg} />
+      <SignResultMsg name={name} successMsg={successMsg} failMsg={failMsg} />
     </Div>
   );
 };
@@ -35,5 +35,6 @@ export default SignInputForm;
 const Div = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
   padding: 10px;
 `;

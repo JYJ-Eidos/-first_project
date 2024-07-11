@@ -21,4 +21,5 @@ const PageHeader = styled.header`
   width: 100%;
   height: 4rem;
   padding: 0 1.2rem;
+  margin-bottom: 2rem;
 `;

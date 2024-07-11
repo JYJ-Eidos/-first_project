@@ -9,6 +9,13 @@ const initialState = {
     phoneNumber: '',
     profileImage: '',
   },
+  hasFocus: {
+    email: false,
+    password: false,
+    checkPassword: false,
+    nickname: false,
+    phoneNumber: false,
+  },
   inputState: {
     email: false,
     password: false,
@@ -27,6 +34,11 @@ const signUpSlice = createSlice({
       state.userData[name] = value;
     },
 
+    hasFocus: (state, action) => {
+      const { name } = action.payload;
+      state.hasFocus[name] = true;
+    },
+
     turnOnState: (state, action) => {
       const { name } = action.payload;
       state.inputState[name] = true;
@@ -42,6 +54,6 @@ const signUpSlice = createSlice({
   },
 });
 
-export const { setUser, turnOnState, turnOffState, resetState } =
+export const { setUser, hasFocus, turnOnState, turnOffState, resetState } =
   signUpSlice.actions;
 export default signUpSlice.reducer;
