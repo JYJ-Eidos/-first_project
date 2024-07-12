@@ -12,7 +12,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { needValidationEndpoints, validateData } from '../../../utils/validate';
 
-const SignInput = ({ type, name, placeholder }) => {
+const SignInput = ({ type, name, placeholder, maxLength }) => {
   const dispatch = useDispatch();
   const { password, checkPassword } = useSelector(
     (state) => state.signUpReducer.userData
@@ -25,7 +25,10 @@ const SignInput = ({ type, name, placeholder }) => {
   }, [dispatch]);
 
   const onChangeUserData = (e) => {
-    const { name, value } = e.currentTarget;
+    const { name, value, type, maxLength } = e.currentTarget;
+    if (type === 'number' && value.length > maxLength) {
+      e.target.value = e.target.value.slice(0, maxLength);
+    }
     dispatch(setUser({ name, value }));
   };
 
@@ -80,6 +83,7 @@ const SignInput = ({ type, name, placeholder }) => {
       onChange={onChangeUserData}
       onBlur={onBlurInput}
       placeholder={placeholder}
+      maxLength={maxLength}
       $inputState={inputState[name]}
     />
   );
@@ -89,6 +93,7 @@ SignInput.propTypes = {
   type: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
+  maxLength: PropTypes.string.isRequired,
 };
 
 export default SignInput;
@@ -98,4 +103,11 @@ const Input = styled.input`
   height: 50px;
   border: 0.13rem solid ${(props) => (props.$inputState ? 'red' : 'gray')};
   border-radius: 10px;
+  padding-left: 10px;
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  -moz-appearance: textfield;
 `;

@@ -7,6 +7,11 @@ const SignSubmit = () => {
   const navigate = useNavigate();
   const HOST = import.meta.env.VITE_API_HOST;
   const { userData } = useSelector((state) => state.signUpReducer);
+  const { hasFocus, inputState } = useSelector((state) => state.signUpReducer);
+
+  const isButtonDisable =
+    Object.values(hasFocus).includes(false) ||
+    Object.values(inputState).includes(true);
 
   const onClickHandler = (e) => {
     const { email, password, nickname, birthday, phoneNumber, profileImage } =
@@ -42,7 +47,11 @@ const SignSubmit = () => {
       });
   };
 
-  return <Button onClick={onClickHandler}>SignSubmit</Button>;
+  return (
+    <Button onClick={onClickHandler} disabled={isButtonDisable}>
+      SignSubmit
+    </Button>
+  );
 };
 
 export default SignSubmit;

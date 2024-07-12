@@ -11,11 +11,12 @@ export const validateData = {
   },
   password(password) {
     const passwordRegex =
-      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/;
     return passwordRegex.test(password);
   },
   phoneNumber(phoneNumber) {
-    return phoneNumber.length === 11;
+    const phoneRegex = /^010\d{8}$/;
+    return phoneRegex.test(phoneNumber);
   },
   nickname(nickname) {
     return nickname.length >= 2 && nickname.length <= 20;

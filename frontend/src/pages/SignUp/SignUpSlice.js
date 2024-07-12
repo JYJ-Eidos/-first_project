@@ -48,6 +48,7 @@ const signUpSlice = createSlice({
       const { name } = action.payload;
       state.inputState[name] = false;
     },
+
     resetState: () => {
       return initialState;
     },
