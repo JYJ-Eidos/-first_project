@@ -39,16 +39,15 @@ const SignInput = ({ type, name, placeholder, maxLength }) => {
     const { name, value } = e.currentTarget;
     dispatch(hasFocus({ name }));
 
-    if (name === 'checkPassword') {
-      if (password !== checkPassword || !validateData['password'](value)) {
-        dispatch(turnOnState({ name }));
-      } else {
-        dispatch(turnOffState({ name }));
-      }
-    } else if (!validateData[name](value)) {
-      dispatch(turnOnState({ name }));
-    } else {
+    const isValid =
+      name === 'checkPassword'
+        ? password === checkPassword && validateData['password'](value)
+        : validateData[name](value);
+
+    if (isValid) {
       dispatch(turnOffState({ name }));
+    } else {
+      dispatch(turnOnState({ name }));
     }
 
     if (
