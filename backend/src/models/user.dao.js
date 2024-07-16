@@ -40,7 +40,7 @@ class UserDao {
     );
 
     if (result) {
-      throwError(400, `DUPLICATE_${column.toUpperCase()}`);
+      throwError(200, `DUPLICATE_${column.toUpperCase()}`);
     }
   }
 

@@ -25,9 +25,9 @@ class UserController {
   }
 
   async checkDuplicatePhoneNumber(req, res) {
-    const { phone_number } = req.body;
+    const { phoneNumber } = req.body;
     try {
-      await this.userService.checkDuplicate('phone_number', phone_number);
+      await this.userService.checkDuplicate('phone_number', phoneNumber);
       res
         .status(200)
         .json({ success: true, message: 'PHONE_NUMBER_IS_AVAILABLE' });

@@ -10,14 +10,15 @@ class Validate {
 
   checkPassword(password) {
     const passwordRegex =
-      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/;
     if (!passwordRegex.test(password)) {
       throwError(400, 'INVALID_PASSWORD_FORMAT');
     }
   }
 
   checkPhoneNumber(phoneNumber) {
-    if (phoneNumber.length !== 11) {
+    const phoneRegex = /^010\d{8}$/;
+    if (!phoneRegex.test(phoneNumber)) {
       throwError(400, 'INVALID_PHONE_NUMBER_FORMAT');
     }
   }
