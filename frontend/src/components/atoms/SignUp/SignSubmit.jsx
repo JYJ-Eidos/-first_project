@@ -14,44 +14,42 @@ const SignSubmit = () => {
     Object.values(inputState).includes(true);
 
   const onClickHandler = (e) => {
-    const { email, password, nickname, birthday, phoneNumber, profileImage } =
-      userData;
     e.preventDefault();
-    const url = `${HOST}/users/signup`;
-    const data = {
-      email,
-      password,
-      nickname,
-      birthday,
-      phone_number: phoneNumber,
-      profile_image: profileImage,
-    };
+    if (!isButtonDisable) {
+      const { email, password, nickname, birthday, phoneNumber, profileImage } =
+        userData;
+      const url = `${HOST}/users/signup`;
+      const data = {
+        email,
+        password,
+        nickname,
+        birthday,
+        phone_number: phoneNumber,
+        profile_image: profileImage,
+      };
 
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
 
-    axios
-      .post(url, data, config)
-      .then((res) => {
-        if (res.data.success) {
-          alert('회원가입 완료');
-          navigate('/');
-        }
-      })
-      .catch((err) => {
-        const { message } = err.response.data;
-        console.error(message);
-      });
+      axios
+        .post(url, data, config)
+        .then((res) => {
+          if (res.data.success) {
+            alert('회원가입 완료');
+            navigate('/');
+          }
+        })
+        .catch((err) => {
+          const { message } = err.response.data;
+          console.error(message);
+        });
+    }
   };
 
-  return (
-    <Button onClick={onClickHandler} disabled={isButtonDisable}>
-      SignSubmit
-    </Button>
-  );
+  return <Button onClick={onClickHandler}>SignSubmit</Button>;
 };
 
 export default SignSubmit;

@@ -27,9 +27,12 @@ const SignInput = ({ type, name, placeholder, maxLength }) => {
   const onChangeUserData = (e) => {
     const { name, value, type, maxLength } = e.currentTarget;
     if (type === 'number' && value.length > maxLength) {
-      e.target.value = e.target.value.slice(0, maxLength);
+      e.currentTarget.value = e.currentTarget.value.slice(0, maxLength);
+      const value = e.currentTarget.value.slice(0, maxLength);
+      dispatch(setUser({ name, value }));
+    } else {
+      dispatch(setUser({ name, value }));
     }
-    dispatch(setUser({ name, value }));
   };
 
   const onBlurInput = (e) => {
